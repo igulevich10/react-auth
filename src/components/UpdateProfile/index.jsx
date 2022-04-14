@@ -7,7 +7,7 @@ export default function UpdateProfile() {
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
-  const { currentUser, updateEmail, updatePass } = useAuth()
+  const { currentUser, updateEmail, updatePassword } = useAuth()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -26,7 +26,7 @@ export default function UpdateProfile() {
       promises.push(updateEmail(emailRef.current.value))
     }
     if(passwordRef.current.value) {
-      promises.push(updatePass(passwordRef.current.value))
+      promises.push(updatePassword(passwordRef.current.value))
     }
 
     Promise.all(promises).then(()=> {
@@ -54,12 +54,12 @@ export default function UpdateProfile() {
             <Form.Group id='password' className='mb-2'>
               <Form.Label>Password</Form.Label>
               <Form.Control type='password' ref={passwordRef} 
-              placeholder='Leave blank to keep the same!'/>
+              placeholder='Change your password (not necessary)'/>
             </Form.Group>
             <Form.Group id='password-confirm'>
               <Form.Label>Password Confirm</Form.Label>
               <Form.Control type='password' ref={passwordConfirmRef} 
-              placeholder='Leave blank to keep the same!'/>
+              placeholder='Confirm new password (not necessary)'/>
             </Form.Group>
             <Button disabled={loading} className='w-100 mt-4' type='submit'>Update</Button>
           </Form>
@@ -68,7 +68,6 @@ export default function UpdateProfile() {
       <div className='w-100 text-center mt-2'>
         <Link className='text-white' to='/dashboard'>Cancel</Link>
       </div>
-
    </>
   )
 }

@@ -31,8 +31,8 @@ export function AuthProvider({children}) {
     return currentUser.updateEmail(email)
   }
 
-  function updatePass(password) {
-    return currentUser.updatePass(password)
+  function updatePassword(password) {
+    return currentUser.updatePassword(password)
   }
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export function AuthProvider({children}) {
     logout,
     resetPass,
     updateEmail,
-    updatePass
+    updatePassword
   }
 
   

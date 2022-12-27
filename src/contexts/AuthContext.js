@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { auth } from '../firebase'
+import { auth, googleAuthProvider } from '../firebase'
+import { RecaptchaVerifier } from 'firebase/auth'
 
 const AuthContext = React.createContext()
 
@@ -10,7 +11,7 @@ export function useAuth() {
 export function AuthProvider({children}) {
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
-  
+   
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password)    
   }
@@ -27,12 +28,30 @@ export function AuthProvider({children}) {
     return auth.sendPasswordResetEmail(email)
   }
 
+  function updatePhoneNumber(number) {
+    return currentUser.updatePhoneNumber(number)
+  }
+
   function updateEmail(email) {
     return currentUser.updateEmail(email)
   }
 
   function updatePassword(password) {
     return currentUser.updatePassword(password)
+  }
+
+  function googleSignIn() {
+    return auth.signInWithPopup(googleAuthProvider);
+  }
+
+  function setUpRecaptcha(number) {
+    const recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {},
+      auth
+    );
+    recaptchaVerifier.render();
+    return auth.signInWithPhoneNumber(number, recaptchaVerifier);
   }
 
   useEffect(() => {
@@ -51,7 +70,10 @@ export function AuthProvider({children}) {
     logout,
     resetPass,
     updateEmail,
-    updatePassword
+    updatePassword,
+    updatePhoneNumber,
+    googleSignIn,
+    setUpRecaptcha
   }
 
   
